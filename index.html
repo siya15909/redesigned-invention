@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PASSWORD CHECKER</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- <script src="/script.js"></script> -->
+  </head>
+  <body>
+    <div class="heading">
+      <h1>Test Your Password Strength Here....</h1>
+    </div>
+    <div class="container">
+      <input type="password" placeholder="Enter your password here" id="passwd">
+      <span class="passwd-toggle" id="toggle-passwd">
+        <i class="fas fa-eye-slash" id="eye-icon"></i>
+      </span>
+      <button id="submit" type="button" onclick="Check()">CHECK</button>
+    </div>
+    <p id="message"class="centered-output">Your Password is <span id="strength"></span> </p>
+  </body>
+</html>
+<script>
+  function Check() {
+  var pass = document.getElementById('passwd');
+  var msg = document.getElementById('message');
+  var str = document.getElementById('strength');
+  
+  if (pass.value.length > 0) {
+      msg.style.display = "block";
+  } else {
+      msg.style.display = "none";
+  }
+  var hasCapital = /[A-Z]/.test(pass.value);
+  var hasNumber = /\d/.test(pass.value);
+  var hasSpecial = /[^A-Za-z0-9]/.test(pass.value);
+  if (pass.value.length < 8) {
+    str.innerHTML = `weak \n Add more letters`;
+    pass.style.borderColor = "red";
+    msg.style.color = "red";
+  }
+  else if (pass.value.length >=8 ) {
+    str.innerHTML = "medium\n Add atleast one number ,a capital letter and a special character ";
+    pass.style.borderColor = "yellow";
+    msg.style.color = "red";
+}
+  else if (pass.value.length >=8 && hasCapital) {
+        str.innerHTML = "medium \n Add atleast one number and a special character ";
+        pass.style.borderColor = "yellow";
+        msg.style.color = "red";
+  }else if (pass.value.length >= 8 && hasCapital && hasNumber) {
+    str.innerHTML = "medium \n Add atleast a special character ";
+    pass.style.borderColor = "red";
+    msg.style.color = "red";
+  }
+   else if (pass.value.length >= 8 && hasNumber && hasCapital && hasSpecial) {
+    str.innerHTML = "strong";
+    pass.style.borderColor = "green";
+    msg.style.color = "green";
+  }
+}
+const passwordInput = document.getElementById('passwd');
+const togglePassword = document.getElementById('toggle-passwd');
+const eyeIcon = document.getElementById('eye-icon');
+togglePassword.addEventListener('click', () => {
+  if (passwordInput.type == 'password') {
+    passwordInput.type = 'text';
+    document.getElementById('eye-icon').classList.remove('fa-eye-slash');
+    document.getElementById('eye-icon').classList.add('fa-eye');
+  } else {
+    passwordInput.type = 'password';
+    document.getElementById('eye-icon').classList.remove('fa-eye');
+    document.getElementById('eye-icon').classList.add('fa-eye-slash');
+  }
+});
+</script>
